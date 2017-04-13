@@ -1,0 +1,39 @@
+extends ../layouts/business
+block content
+  .container-fluid
+    .page-header
+      h1.text-center Thông tin tài khoản
+    .row
+      .col-sm-12
+        .box-card
+          .card
+            .card-header.box-white
+              h5 Các ứng dụng đã tạo
+            table.table
+              tr
+                th Tên ứng dụng
+                th Email ứng dụng
+                th Loại
+                th Mô tả
+                th(colspan="3") Thao tác
+              each app in apps
+                tr
+                  td=app.name
+                  td=app.email
+                  td=app.type
+                  td=app.description
+                  td
+                    a(href="/businesses/viewapp/"+business.id+"/"+app.id class="text-success")
+                      i.fa.fa-eye
+                      span Xem
+                  td
+                    a(href="" class="text-primary")
+                      i.fa.fa-pencil
+                      span Sửa
+                  td
+                    a(href="" class="text-danger")
+                      i.fa.fa-trash
+                      span Xóa
+    .row.section
+      .col-sm-12
+        a(href="/businesses/createApp" class="btn btn-danger btn-lg") Tạo ứng dụng

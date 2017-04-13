@@ -1,0 +1,18 @@
+extends ./layouts/app
+block content
+  .row
+    .col-sm-6.offset-3
+      .box-card
+        .card
+          .card-header.box-white
+            h1.title-sign Chọn tài khoản đăng ký
+          .card-block
+            .col-sm-12
+              p Tài khoản cá nhân dành cho người dùng muốn mua hàng bằng hệ thống của chúng tôi
+              .text-center
+                a(href="/customers/register" class="btn btn-success btn-lg") Cá nhân
+            .col-sm-12
+              .mt-3
+                p Tài khoản doanh nghiệp dành cho người dùng muốn tích hợp sử dụng phương thức thanh toán của chúng tôi
+                .text-center
+                  a(href="/businesses/register" class="btn btn-danger btn-lg") Doanh nghiệp

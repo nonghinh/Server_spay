@@ -1,0 +1,59 @@
+/*
+* Stylesheet frontend
+*/
+/*== CUstom style== */
+#wrapper{
+  min-height: 1000px;
+}
+.form-control{
+  border-radius: 2px;
+}
+.btn , .card{
+  border-radius: 2px;
+}
+label.required:after{
+  content: "*";
+  color: red;
+  margin-left: 10px;
+}
+.ui-datepicker{
+  background: #fff;
+  border: 1px solid #d1d1d1;
+}
+.box-card{
+  margin-top: 20px;
+}
+/*== / CUstom style== */
+#register .formBox{
+  margin-top: 20px;
+}
+#loginBox .card-header,
+#register .card-header{
+  background: #fff;
+}
+#register .card-header .title-header{
+  font-size: 2.2em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #16a085;
+}
+
+#loginBox .card{
+  margin-top: 20px;
+}
+#loginBox .card-title{
+  font-size: 2.2em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #16a085;
+}
+.title-form{
+  text-align: center;
+  color: #0275d8;
+  font-size: 30px;
+  text-transform: uppercase;
+}
+.required{
+  color: red;
+  margin-left: 10px;
+}

@@ -1,0 +1,19 @@
+#header
+  nav.navbar.navbar-toggleable-sm.navbar-light.bg-faded
+    button(class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" )
+      span.navbar-toggler-icon
+    a(class="navbar-brand" href="/") S-Pay
+    .collapse.navbar-collapse#navbarNav
+      ul.nav.navbar-nav.mr-0.ml-lg-auto
+        - if(auth && auth == 'customer'){
+            li.nav-item
+              a(class="nav-link" href="/customers/dashboard") Dashboard
+            li.nav-item
+              a(class="nav-link" href="/users/logout") Đăng xuất
+        - }
+        - if(auth && auth == 'business'){
+            li.nav-item
+              a(class="nav-link" href="/businesses/dashboard") Dashboard
+            li.nav-item
+              a(class="nav-link" href="/users/logout") Đăng xuất
+        - }

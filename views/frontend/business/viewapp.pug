@@ -1,0 +1,70 @@
+extends ../layouts/business
+block content
+  .container-fluid
+    .page-header
+      h1.text-center Thông tin ứng dụng
+    .section
+      .row
+        .col-sm-6
+          .list-group.list-info
+            .list-group-item
+              strong Tên:
+              span=app.name
+            .list-group-item
+              strong Email:
+              span=app.email
+            .list-group-item
+              strong Số điện thoại:
+              span=app.phone
+            .list-group-item
+              strong Loại:
+              span=app.type
+            .list-group-item
+              strong Mô tả:
+              span=app.description
+        .col-sm-6
+          .card
+            .card-header
+              h5 Thông tin tạo QRCode
+            .card-block
+              .list-group.list-info
+                .list-group-item
+                  strong Mã ứng dụng:
+                  code=code
+              .section
+                .alert.alert-info
+                  span Mã QRCode cần được viết theo cấu trúc bê dưới:
+              .section
+                .alert.alert-danger
+                  code="{name: '(tên sản phẩm)', appid:'"+code+"', caseid: '(mã cây)', itemid: '(Mã sản phẩm)', price: '(Giá)' }"
+    .section
+      .row
+        .col-sm-12
+          .card
+            .card-header.box-white
+              .row
+                .col-sm-10
+                  h5 Các giao dịch
+                .col-sm-2
+                  a(href="/businesses/deleteAllMsg/"+app.id class="btn btn-danger float-sm-right" onclick="return confirmDelete()") Xóa tất cả
+            table.table
+              - if(bills && bills != null){
+                - var i = 0;
+                each bill in bills
+                  tr
+                    td=++i
+                    td=bill.message
+                    td=bill.amount+' VNĐ'
+                    td
+                      -if(bill.status == 1){
+                        span.text-success Thành công
+                      -}else{
+                        span.text-danger Thất bại
+                      -}
+                    td
+                      a(href="/businesses/deleteMsg/"+bill.id class="text-danger" onclick="return confirmDelete()")
+                        i.fa.fa-trash
+                        span Xóa
+              - }else{
+                .alert.alert-warning Không có giao dịch nào
+              - }

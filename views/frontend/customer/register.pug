@@ -1,0 +1,65 @@
+extends ../layouts/app
+block content
+  .container
+    .row
+      .col-sm-6.offset-sm-3
+        .box-card
+          .card
+            .card-header
+              h1.title-sign Đăng ký tài khoản cá nhân
+            .card-block
+              - if(error){
+                .alert.alert-danger
+                  case error
+                    when 'email': span Email đã tồn tại
+                    when 'phone': span Số điện thoại đã tồn tại
+                    when 'phone': span Số điện thoại đã tồn tại
+                    when 'idnumber': span Số chứng minh nhân dân đã tồn tại
+                    when 'password': span Xác nhận không khớp mật khẩu
+                    when 'validate': span Thông tin chưa đầy đủ
+              - }
+              form(action="" method="post")
+                .form-group
+                  label Họ và tên
+                    span.required *
+                  input(type="text" name="fullname" class="form-control")
+                .form-group
+                  label Email
+                    span.required *
+                  input(type="text" name="email" class="form-control")
+                .form-group
+                  label Mật khẩu
+                    span.required *
+                  input(type="password" name="password" class="form-control")
+                .form-group
+                  label Nhập lại mật khẩu
+                    span.required *
+                  input(type="password" name="repassword" class="form-control")
+                .form-group
+                  label Số điện thoại
+                    span.required *
+                  input(type="tel" name="phone" class="form-control")
+                .form-group
+                  label Ngày sinh
+                    span.required *
+                  input(type="text" name="birthday" class="form-control birthday" placeholder="dd/mm/yyyy")
+                .form-group
+                  label Giới tính
+                    span.required *
+                  select(name="gender" class="form-control")
+                    option(value="1") Nam
+                    option(value="0") Nữ
+                .form-group
+                  label Số CMTND
+                    span.required *
+                  input(type="text" name="idnumber" class="form-control")
+                .form-group
+                  label Địa chỉ
+                    span.required *
+                  textarea(name="address" class="form-control")
+                .form-group
+                  p Nhấn nút Đăng ký nghĩa là bạn đã đồng ký và cam kết tuân thủ các
+                   a(href="") Thỏa thuận người dùng
+                   span của chúng tôi
+                .form-group
+                  button(type="submit" name="login" class="btn btn-primary btn-block") Đăng ký

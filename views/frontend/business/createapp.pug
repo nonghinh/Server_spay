@@ -1,0 +1,38 @@
+extends ../layouts/app
+block content
+  .container
+    .row
+      .col-sm-6.offset-sm-3
+        #loginBox
+          .card
+            .card-header
+              h1.title-form Tạo ứng dụng
+            .card-block
+              -if(error){
+                .alert.alert-danger
+                  case error
+                    when 'validate': span Thông tin chưa đầy đủ
+              - }
+              form(action="" method="POST")
+                .form-group
+                  label Tên ứng dụng
+                    span.required *
+                  input(type="text" name="appname" class="form-control")
+                .form-group
+                  label Email đăng ký ứng dụng
+                    span.required *
+                  input(type="email" name="email" class="form-control")
+                .form-group
+                  label Số điện thoại đăng ký ứng dụng
+                    span.required *
+                  input(type="tel" name="phone" class="form-control")
+                .form-group
+                  label Loại ứng dụng
+                    span.required *
+                  input(type="text" name="type" class="form-control")
+                .form-group
+                  label Mô tả ứng dụng
+                    span.required *
+                  textarea(name="description" class="form-control")
+                .form-group
+                  button(type="submit" name="createapp" class="btn btn-success btn-block") Tạo

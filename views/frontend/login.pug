@@ -1,0 +1,25 @@
+extends layouts/app
+block content
+  .container
+    .row
+      .col-sm-6.offset-sm-3
+        .box-card
+          .card
+            .card-header.box-white
+              h1.title-sign Đăng nhập
+            .card-block
+              - if(error && error == 'validate'){
+                .alert.alert-danger
+                  span Email hoạc mật khẩu không đúng
+              - }
+              form(action="" method="post")
+                .form-group
+                  label Email
+                    span.required *
+                  input(type="text" name="email" class="form-control")
+                .form-group
+                  label Password
+                    span.required *
+                  input(type="password" name="password" class="form-control")
+                .form-group
+                  button(type="submit" name="login" class="btn btn-primary btn-block") Đăng nhập

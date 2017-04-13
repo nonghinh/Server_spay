@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title= title
+    link(rel="stylesheet" href="/css/bootstrap.min.css")
+    link(rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css")
+    link(rel="stylesheet" href="/css/font-awesome.min.css")
+    link(rel="stylesheet" href="/css/style.css")
+  body
+    #wrapper
+      include ../blocks/nav-customer
+      #content
+        block content
+
+    script(src="/js/jquery-3.1.1.slim.min.js")
+    script(src="/js/jquery-1.12.4.min.js")
+    script(src="/js/jquery-ui.js")
+    script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
+    script(src="/js/datepicker-vi.js")
+    script(src="/js/tether.min.js")
+    script(src="/js/bootstrap.min.js")
+    script(src="/js/custom.js")
+    block script
