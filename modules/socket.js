@@ -2,15 +2,72 @@ var jwt = require('jwt-simple');
 var keys = require('../configs/keys.js');
 var datetime = require('node-datetime');
 var conn = require('../database/connection.js');
+var Nexmo = require('nexmo');
+
+const nexmo = new Nexmo({
+  apiKey: '3ede60d9',
+  apiSecret: '64b09b7aaeb34cd3'
+});
 
 var users = [];
 exports = module.exports = function(io){
   io.on('connection', function(socket){
+    socket.on('clientPay', function(data){
+      var access_token = data.access_token;
+      var dataPayment = data.dataPayment;
 
+      conn.query('SELECT * FROM users WHERE ?', {access_token: access_token}, function(errU, users){
+        if(errU) throw errU;
+        var phone = users[0].phone;
+        if(phonenum.indexOf('0') == 0){
+          phonenum = phonenum.replace('0', '84');
+        }
+        conn.query('SELECT * FROM customers WHERE ?',{user_id: users[0].id}, function(errC, customers){
+          if(errC) throw errC;
+          var money = parseInt(customers[0].money);
+          var total = parseInt(dataPayment.price);
+          if(money >= total){
+            //Thanh toan
+            var m = money - total;
+            conn.query('UPDATE customers SET money = ? WHERE id = ?',[m, customers[0].id], function(errUp, update){
+              if(errUp) throw errUp;
+            });
+            var msgSuccess = 'Bạn đã thanh toán thành công. Cảm ơn đã sử dụng dịch vụ của chúng tôi.';
+            nexmo.message.sendSms(
+              '8498616031', phonenum, msgSuccess, {type: 'unicode'},
+                (err, responseData) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.dir(responseData);
+                  }
+                }
+             );
+          }
+          else{
+            //Het tien, khong thanh toan
+            var msgFail = 'Tài khoản của bạn không đủ để thanh toán, vui lòng nạp thêm tiền. Cảm ơn đã sử dụng dịch vụ của chúng tôi.';
+            nexmo.message.sendSms(
+              '8498616031', phonenum, msgFail, {type: 'unicode'},
+                (err, responseData) => {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.dir(responseData);
+                  }
+                }
+             );
+          }
+
+        });
+      });
+    });
     socket.on('disconnect', function(){
       console.log('Client'+socket.id+' disconnected');
       delete users[socket.id];
       console.log(users);
     });
+
+
   });
 }
