@@ -2,16 +2,12 @@ var jwt = require('jwt-simple');
 var keys = require('../configs/keys.js');
 var datetime = require('node-datetime');
 var conn = require('../database/connection.js');
-var Nexmo = require('nexmo');
-
-const nexmo = new Nexmo({
-  apiKey: '3ede60d9',
-  apiSecret: '64b09b7aaeb34cd3'
-});
+var toEncode = require('nodejs-base64-encode');
 
 var users = [];
 exports = module.exports = function(io){
   io.on('connection', function(socket){
+
     socket.on('clientPay', function(data){
       var access_token = data.access_token;
       var dataPayment = data.dataPayment;
@@ -32,33 +28,40 @@ exports = module.exports = function(io){
             conn.query('UPDATE customers SET money = ? WHERE id = ?',[m, customers[0].id], function(errUp, update){
               if(errUp) throw errUp;
             });
-            var msgSuccess = 'Bạn đã thanh toán thành công. Cảm ơn đã sử dụng dịch vụ của chúng tôi.';
-            nexmo.message.sendSms(
-              '8498616031', phonenum, msgSuccess, {type: 'unicode'},
-                (err, responseData) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    console.dir(responseData);
-                  }
-                }
-             );
+            var bill1 = {
+              app_id: toEncode.decode(dataPayment.appid, 'base64'),
+              customer_id: customers[0].id,
+              product_id: dataPayment.itemid,
+              case_id: dataPayment.caseid,
+              price: dataPayment.price,
+              message: dataPayment.comments,
+              status: 1
+            };
+
+            conn.query('INSERT INTO bills SET ?', bill1, function(errB1, data){
+              if(errB1) throw errB1;
+            });
+            var msgSuccess = 'Bạn đã thanh toán thành công.';
+            io.sockets.connected[socket.id].emit('serverReply', msgSuccess, 1);
+
           }
           else{
             //Het tien, khong thanh toan
+            var bill2 = {
+              app_id: toEncode.decode(dataPayment.appid, 'base64'),
+              customer_id: customers[0].id,
+              product_id: dataPayment.itemid,
+              caseid: dataPayment.caseid,
+              price: dataPayment.price,
+              message: dataPayment.comments,
+              status: 0
+            };
+            conn.query('INSERT INTO bills SET ?', bill2, function(errB2){
+              if(errB2) throw errB2;
+            });
             var msgFail = 'Tài khoản của bạn không đủ để thanh toán, vui lòng nạp thêm tiền. Cảm ơn đã sử dụng dịch vụ của chúng tôi.';
-            nexmo.message.sendSms(
-              '8498616031', phonenum, msgFail, {type: 'unicode'},
-                (err, responseData) => {
-                  if (err) {
-                    console.log(err);
-                  } else {
-                    console.dir(responseData);
-                  }
-                }
-             );
+            io.sockets.connected[socket.id].emit('serverReply', msgSuccess, 1);
           }
-
         });
       });
     });
