@@ -62,7 +62,7 @@ exports = module.exports = function(io){
               if(errB2) throw errB2;
             });
             var msgFail = 'Tài khoản của bạn không đủ để thanh toán, vui lòng nạp thêm tiền. Cảm ơn đã sử dụng dịch vụ của chúng tôi.';
-            io.sockets.connected[socket.id].emit('serverReply', msgSuccess, 1);
+            io.sockets.connected[socket.id].emit('serverReply', msgFail, 0);
           }
         });
       });
