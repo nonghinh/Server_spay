@@ -50,7 +50,7 @@ exports = module.exports = function(io){
           else{
             //Het tien, khong thanh toan
             var bill2 = {
-              app_id: toEncode.decode(dataPayment.appid, 'base64'),
+              app_id: base64.decode(dataPayment.appid),
               customer_id: customers[0].id,
               product_id: dataPayment.itemid,
               caseid: dataPayment.caseid,
