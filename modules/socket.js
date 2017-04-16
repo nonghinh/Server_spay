@@ -3,6 +3,7 @@ var keys = require('../configs/keys.js');
 var datetime = require('node-datetime');
 var conn = require('../database/connection.js');
 var toEncode = require('nodejs-base64-encode');
+var base64 = require('base-64');
 
 var users = [];
 exports = module.exports = function(io){
@@ -10,7 +11,8 @@ exports = module.exports = function(io){
 
     socket.on('clientPay', function(data){
       var access_token = data.access_token;
-      var dataPayment = data.dataPayment;
+      var dataString = base64.decode(data.dataPayment);
+      var dataPayment = JSON.parse(dataString);
 
       conn.query('SELECT * FROM users WHERE ?', {access_token: access_token}, function(errU, users){
         if(errU) throw errU;
