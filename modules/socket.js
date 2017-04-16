@@ -16,7 +16,7 @@ exports = module.exports = function(io){
       console.log(dataPayment);
       conn.query('SELECT * FROM users WHERE ?', {access_token: access_token}, function(errU, users){
         if(errU) throw errU;
-        var phone = users[0].phone;
+        var phonenum = users[0].phone;
         if(phonenum.indexOf('0') == 0){
           phonenum = phonenum.replace('0', '84');
         }
