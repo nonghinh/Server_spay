@@ -13,7 +13,7 @@ exports = module.exports = function(io){
       var access_token = data.access_token;
       var dataString = base64.decode(data.dataPayment);
       var dataPayment = JSON.parse(dataString);
-
+      console.log(dataPayment);
       conn.query('SELECT * FROM users WHERE ?', {access_token: access_token}, function(errU, users){
         if(errU) throw errU;
         var phone = users[0].phone;
