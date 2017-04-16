@@ -31,7 +31,7 @@ exports = module.exports = function(io){
               if(errUp) throw errUp;
             });
             var bill1 = {
-              app_id: toEncode.decode(dataPayment.appid, 'base64'),
+              app_id: base64.decode(dataPayment.appid),
               customer_id: customers[0].id,
               product_id: dataPayment.itemid,
               case_id: dataPayment.caseid,
