@@ -132,7 +132,7 @@ block script
       var url = 'https://ancient-thicket-58596.herokuapp.com/businesses/renderCode';
       $.get(url, dataSend, function(result){
         if(result.status == 0){
-          $('#alertValidate').html = '<div class="alert alert-danger"> Thông tin chưa đầy đủ </div>';
+          $('#alertValidate').html('<div class="alert alert-danger"> Thông tin chưa đầy đủ </div>');
         }else{
           $('#contentQRCode').text(result.code);
           qrcode.makeCode(result.code);
