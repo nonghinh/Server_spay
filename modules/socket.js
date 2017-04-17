@@ -31,7 +31,7 @@ exports = module.exports = function(io){
               if(errUp) throw errUp;
             });
             var bill1 = {
-              app_id: base64.decode(dataPayment.appid),
+              app_id: dataPayment.appid,
               customer_id: customers[0].id,
               product_id: dataPayment.itemid,
               case_id: dataPayment.caseid,
@@ -50,7 +50,7 @@ exports = module.exports = function(io){
           else{
             //Het tien, khong thanh toan
             var bill2 = {
-              app_id: base64.decode(dataPayment.appid),
+              app_id: dataPayment.appid,
               customer_id: customers[0].id,
               product_id: dataPayment.itemid,
               caseid: dataPayment.caseid,

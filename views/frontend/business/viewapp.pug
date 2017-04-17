@@ -25,18 +25,51 @@ block content
         .col-sm-6
           .card
             .card-header
-              h5 Thông tin tạo QRCode
+              h5 Tạo QRCode
             .card-block
               .list-group.list-info
-                .list-group-item
-                  strong Mã ứng dụng:
-                  code=code
-              .section
                 .alert.alert-info
-                  span Mã QRCode cần được viết theo cấu trúc bê dưới:
+                  span Nhập các thông tin để tạo nội dung đưa vào QRCode (Dữ liệu được mã hóa)
               .section
-                .alert.alert-danger
-                  code="{name: '(tên sản phẩm)', appid:'"+code+"', caseid: '(mã cây)', itemid: '(Mã sản phẩm)', price: '(Giá)' }"
+                #alertValidate
+                form#formMakeCode
+                  input(type="hidden" name="code" value=code)
+                  .form-group
+                    label.required Mã sản phẩm
+                    input(type="text" name="product_id" class="form-control")
+                  .form-group
+                    label.required Tên sản phẩm
+                    input(type="text" name="product_name" class="form-control")
+                  .form-group
+                    label.required Giá
+                    input(type="text" name="product_price" class="form-control")
+                  .form-group
+                    label Mã máy (case)
+                      span Nếu không có nhập <code>none </code>
+                    input(type="text" name="case_id" class="form-control")
+                  .form-group
+                    button(type="button" id="btnMakeCode" class="btn btn-warning btn-lg") Tạo
+            <div class="modal fade" id="modalQRCode">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-center">Nội dung và mã QRCode</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    .alert.alert-danger
+                      span#contentQRCode
+                    .sention
+                      #qrCodeImg
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
     .section
       .row
         .col-sm-12
@@ -68,3 +101,42 @@ block content
               - }else{
                 .alert.alert-warning Không có giao dịch nào
               - }
+
+block script
+  script(src="/js/qrcode.js")
+  script.
+    var imgQRCode = $('#qrCodeImg');
+    var qrcode = new QRCode(document.getElementById('qrCodeImg'), {
+      width: 200,
+      height: 200,
+      colorDark : "#000000",
+      colorLight : "#ffffff",
+      correctLevel : QRCode.CorrectLevel.H
+    });
+
+    $('#btnMakeCode').click(function(e){
+      var fMakeQRCode = $('#formMakeCode');
+      var app_id = fMakeQRCode.find('input[name=code]').val();
+      var product_name = fMakeQRCode.find('input[name=product_name]').val();
+      var product_id = fMakeQRCode.find('input[name=product_id]').val();
+      var product_price = fMakeQRCode.find('input[name=product_price]').val();
+      var case_id = fMakeQRCode.find('input[name=case_id]').val();
+
+      var dataSend = {
+        app_id: app_id,
+        product_id: product_id,
+        product_name: product_name,
+        product_price: product_price,
+        case_id: case_id
+      };
+      var url = 'https://ancient-thicket-58596.herokuapp.com/businesses/renderCode';
+      $.get(url, dataSend, function(result){
+        if(result.status == 0){
+          $('#alertValidate').html = '<div class="alert alert-danger"> Thông tin chưa đầy đủ </div>';
+        }else{
+          $('#contentQRCode').text(result.code);
+          qrcode.makeCode(result.code);
+          $('#modalQRCode').modal('show');
+        }
+      });
+    });

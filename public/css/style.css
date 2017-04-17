@@ -12,6 +12,14 @@ a {
   color: red;
   margin-left: 10px;
 }
+label.required{
+  color: #292b2c;
+}
+label.required:after{
+  color: red;
+  content: '*';
+  margin-left: 10px;
+}
 .btn{
   border-radius: 2px;
 }
@@ -94,4 +102,13 @@ a {
 }
 .card .alert{
   border-radius: 2px;
+}
+#contentQRCode{
+  word-wrap: break-word;
+}
+#qrCodeImg{
+  width: 230px;
+  height: 230px;
+  padding: 10px;
+  margin: 10px auto;
 }

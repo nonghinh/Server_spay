@@ -6,7 +6,7 @@ var conn = require('../database/connection');
 var passwordHash = require('password-hash');
 var jwt = require('jwt-simple');
 var keys = require('../configs/keys');
-var toEncode = require('nodejs-base64-encode');
+var base64 = require('base-64');
 app.use(session({
   secret: keys.KEY_SESSION,
   resave: false,
@@ -118,7 +118,7 @@ router.get('/viewapp/:business/:id', authChecker ,function(req, res, next){
       if(rows.length > 0){
         bills = rows;
       }
-      res.render('frontend/business/viewapp',{title: 'View app', app: apps[0], code: toEncode.encode(id, 'base64'), bills: bills});
+      res.render('frontend/business/viewapp',{title: 'View app', app: apps[0], code: id, bills: bills});
     });
 
   });
@@ -141,7 +141,27 @@ router.get('/deleteMsg/:id', authChecker, function(req, res, next){
   });
 });
 
-
+//AJAX
+router.get('/renderCode', function(req, res, next){
+  var app_id = req.query.app_id;
+  var product_id = req.query.product_id;
+  var product_name = req.query.product_name;
+  var product_price = req.query.product_price;
+  var case_id = req.query.case_id;
+  if(app_id && product_id && product_name && product_price && case_id){
+    var dataJson = {
+      app_id: app_id,
+      product_id: product_id,
+      product_name: product_name,
+      product_price: product_price,
+      case_id: case_id
+    };
+    var dataEncode = base64.encode(JSON.stringify(dataJson));
+    res.send({status: 1, code: dataEncode});
+  }else{
+    res.send({status: 0, code: ''});
+  }
+});
 function authChecker(req, res, next){
   if (req.session.email && req.session.role == 1) {
         next();
