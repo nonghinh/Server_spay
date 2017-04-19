@@ -32,12 +32,12 @@ exports = module.exports = function(io){
               if(errUp) throw errUp;
             });
             var bill1 = {
-              app_id: dataPayment.appid,
+              app_id: dataPayment.app_id,
               customer_id: customers[0].id,
-              product_id: dataPayment.itemid,
-              case_id: dataPayment.caseid,
-              price: dataPayment.price,
-              message: dataPayment.comments,
+              product_id: dataPayment.product_id,
+              case_id: dataPayment.case_id,
+              price: dataPayment.product_price,
+              message: 'no message',
               status: 1
             };
 
@@ -45,7 +45,7 @@ exports = module.exports = function(io){
               if(errB1) throw errB1;
             });
             var msgSuccess = 'Bạn đã thanh toán thành công.';
-            io.sockets.connected[socket.id].emit('serverReply', msgSuccess, 1);
+            io.sockets.connected[socket.id].emit('serverReply', msgSuccess, '1');
 
             //Ghi thong tin vao file json
             //ds.set(dataPayment.appid+'-'+dataPayment.caseid, {product_id: dataPayment.itemid}, 'payjson');
@@ -53,19 +53,19 @@ exports = module.exports = function(io){
           else{
             //Het tien, khong thanh toan
             var bill2 = {
-              app_id: dataPayment.appid,
+              app_id: dataPayment.app_id,
               customer_id: customers[0].id,
-              product_id: dataPayment.itemid,
-              caseid: dataPayment.caseid,
-              price: dataPayment.price,
-              message: dataPayment.comments,
-              status: 0
+              product_id: dataPayment.product_id,
+              case_id: dataPayment.case_id,
+              price: dataPayment.product_price,
+              message: 'no message',
+              status:0
             };
             conn.query('INSERT INTO bills SET ?', bill2, function(errB2){
               if(errB2) throw errB2;
             });
             var msgFail = 'Tài khoản của bạn không đủ để thanh toán, vui lòng nạp thêm tiền. Cảm ơn đã sử dụng dịch vụ của chúng tôi.';
-            io.sockets.connected[socket.id].emit('serverReply', msgFail, 0);
+            io.sockets.connected[socket.id].emit('serverReply', msgFail, '0');
           }
         });
       });
