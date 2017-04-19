@@ -4,7 +4,8 @@ var datetime = require('node-datetime');
 var conn = require('../database/connection.js');
 var toEncode = require('nodejs-base64-encode');
 var base64 = require('base-64');
-
+var fs = require('fs');
+var ds = require('data-save');
 var users = [];
 exports = module.exports = function(io){
   io.on('connection', function(socket){
@@ -46,6 +47,8 @@ exports = module.exports = function(io){
             var msgSuccess = 'Bạn đã thanh toán thành công.';
             io.sockets.connected[socket.id].emit('serverReply', msgSuccess, 1);
 
+            //Ghi thong tin vao file json
+            ds.set(bill1.app_id+'-'+bill1.case_id, {product_id: bill1.product_id}, 'payjson');
           }
           else{
             //Het tien, khong thanh toan
