@@ -48,7 +48,7 @@ exports = module.exports = function(io){
             io.sockets.connected[socket.id].emit('serverReply', msgSuccess, '1');
 
             //Ghi thong tin vao file json
-            //ds.set(dataPayment.appid+'-'+dataPayment.caseid, {product_id: dataPayment.itemid}, 'payjson');
+            ds.set(dataPayment.app_id+'-'+dataPayment.case_id, {product_id: dataPayment.itemid}, 'payjson');
           }
           else{
             //Het tien, khong thanh toan
