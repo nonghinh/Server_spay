@@ -24,7 +24,7 @@ exports = module.exports = function(io){
         conn.query('SELECT * FROM customers WHERE ?',{user_id: users[0].id}, function(errC, customers){
           if(errC) throw errC;
           var money = parseInt(customers[0].money);
-          var total = parseInt(dataPayment.price);
+          var total = parseInt(dataPayment.product_price);
           if(money >= total){
             //Thanh toan
             var m = money - total;
