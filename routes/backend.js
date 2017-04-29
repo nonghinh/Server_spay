@@ -61,6 +61,13 @@ router.get('/deleteUser/:id', authChecker, function(req, res, next){
   });
 });
 
+router.get('/logout', function(req, res, next){
+  req.session.destroy(function(err){
+    if(err) throw err;
+  });
+  res.redirect('/');
+});
+
 function authChecker(req, res, next){
   if (req.session.admin) {
         next();
