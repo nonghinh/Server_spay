@@ -1,0 +1,27 @@
+extends ../layouts/app
+block content
+  .container-fluid
+    .card.box-card
+      .card-header.box-white
+        h5.text-center Danh sách tài khoản user
+      table.table
+        tr
+          th #
+          th email
+          th Loại
+          th Thao tác
+        - var i = 0;
+        each user in users
+          tr
+            td=++i
+            td=user.email
+            td= (user.business == '1') ? 'business' : 'personal'
+            td
+              a(href="/heroku-backend/deleteUser/"+user.id class="text-danger" onclick="return confirmDelete()")
+                i.fa.fa-trash
+                span Xóa
+        else
+          tr
+            td(colspan="4")
+              alert.alert-warning
+                span.text-center Không có user nào

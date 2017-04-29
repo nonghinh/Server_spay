@@ -24,14 +24,14 @@ router.get('/login', function(req, res, next) {
   res.render('frontend/login',{title: 'Đăng nhập'});
 });
 router.post('/login', function(req, res, next) {
-  var email = req.body.email;
+  var phone = req.body.phone;
   var password = req.body.password;
-  if(email && password){
-    conn.query('SELECT * FROM users WHERE ?',{email: email}, function(err, rows){
+  if(phone && password){
+    conn.query('SELECT * FROM users WHERE ?',{phone: phone}, function(err, rows){
       if(err) throw err;
       if(rows.length > 0){
         if(passwordHash.verify(password, rows[0].password)){
-          req.session.email = email;
+          req.session.email = rows[0].email;
           req.session.access_token = rows[0].access_token;
           req.session.role = rows[0].business;
           req.session.userId = rows[0].id;

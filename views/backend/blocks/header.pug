@@ -1,0 +1,13 @@
+#header
+  nav.navbar.navbar-toggleable-sm.navbar-light.bg-faded
+    button(class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" )
+      span.navbar-toggler-icon
+    a(class="navbar-brand" href="/") S-Pay
+    .collapse.navbar-collapse#navbarNav
+      ul.nav.navbar-nav.mr-0.ml-lg-auto
+        li.nav-item.dropdown.dropdown-last
+          a(class="nav-link dropdown-toggle" data-toggle="dropdown" href="#")
+            i.fa-fa-users
+            span QL user
+          .dropdown-menu
+            a(class="dropdown-item" href="/heroku-backend/listUsers") DS users

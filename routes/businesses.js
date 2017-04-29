@@ -101,7 +101,7 @@ router.post('/createApp', authChecker, function(req, res, next){
   if(name && email && phone && type && description){
     conn.query('INSERT INTO apps SET ?',{business_id: business_id, name: name, email: email, phone: phone, type: type, description: description}, function(err, rows){
       if(err) throw err;
-      res.redirect('/businsesses/dashboard');
+      res.redirect('/businesses/dashboard');
     });
   }else {
     res.render('frontend/business/createapp',{title: 'Create app', error: 'validate'});
@@ -162,6 +162,24 @@ router.get('/renderCode', function(req, res, next){
     res.send({status: 0, code: ''});
   }
 });
+
+router.get('/updateBusiness', function(req, res, next){
+  var id = req.query.id;
+  var name = req.query.name;
+  var website = req.query.website;
+  var license = req.query.license;
+  var description = req.query.description;
+  var address = req.query.address;
+
+  if(name && website && license && description && address){
+    console.log('ok');
+    conn.query('UPDATE businesses SET ? WHERE ?',[{name: name, website: website, license: license, description: description, address: address}, {id: id}], function(err){
+      if(err) throw err;
+      res.send('updated');
+    });
+  }
+});
+
 function authChecker(req, res, next){
   if (req.session.email && req.session.role == 1) {
         next();
@@ -169,4 +187,39 @@ function authChecker(req, res, next){
        res.redirect("/users/login");
     }
 }
+
+router.get('/deleteApp/:id', function(req, res, next){
+  var idapp = req.params.id;
+  conn.query('DELETE FROM apps WHERE ?', {id: idapp}, function(err){
+    if(err) throw err;
+    res.redirect('back');
+  });
+});
+
+router.get('/updateApp/:id', function(req, res, next){
+  var idapp = req.params.id;
+  conn.query('SELECT * FROM apps WHERE ?',{id: idapp}, function(err, rows){
+    if(err) throw err;
+    res.render('frontend/business/update',{title: 'Update app', app: rows[0]});
+  })
+});
+
+router.post('/updateApp/:id', function(req, res, next){
+  var idapp = req.params.id;
+  var name = req.body.appname;
+  var email = req.body.email;
+  var phone = req.body.phone;
+  var type = req.body.type;
+  var description = req.body.description;
+  var business_id = req.session.authId;
+
+  if(name && email && phone && type && description){
+    conn.query('UPDATE apps SET ? WHERE ?',[{business_id: business_id, name: name, email: email, phone: phone, type: type, description: description},{id: idapp}], function(err, rows){
+      if(err) throw err;
+      res.redirect('/businesses/dashboard');
+    });
+  }else {
+    res.render('frontend/business/createapp',{title: 'Create app', error: 'validate'});
+  }
+});
 module.exports = router

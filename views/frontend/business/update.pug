@@ -1,0 +1,38 @@
+extends ../layouts/business
+block content
+  .container
+    .row.section
+      .col-sm-6.offset-sm-3
+        #loginBox
+          .card
+            .card-header
+              h1.title-sign Cập nhật ứng dụng
+            .card-block
+              -if(error){
+                .alert.alert-danger
+                  case error
+                    when 'validate': span Thông tin chưa đầy đủ
+              - }
+              form(action="" method="POST")
+                .form-group
+                  label Tên ứng dụng
+                    span.required *
+                  input(type="text" name="appname" class="form-control" value=app.name)
+                .form-group
+                  label Email đăng ký ứng dụng
+                    span.required *
+                  input(type="email" name="email" class="form-control" value=app.email)
+                .form-group
+                  label Số điện thoại đăng ký ứng dụng
+                    span.required *
+                  input(type="tel" name="phone" class="form-control" value=app.phone)
+                .form-group
+                  label Loại ứng dụng
+                    span.required *
+                  input(type="text" name="type" class="form-control" value=app.type)
+                .form-group
+                  label Mô tả ứng dụng
+                    span.required *
+                  textarea(name="description" class="form-control")=app.description
+                .form-group
+                  button(type="submit" name="createapp" class="btn btn-success btn-block") Xong

@@ -1,0 +1,21 @@
+extends layouts/index
+block content
+  .container
+    .row
+      .col-sm-6.offset-sm-3
+        .card.box-card
+          .card-header
+            h1.title-sign Đăng nhập quản trị viên
+          .card-block
+            - if(error && error == 'wrong'){
+              .alert.alert-danger Sai thông tin đăng nhập
+            - }
+            form(action="" method="POST")
+              .form-group
+                label Email
+                input(type="email" name="email" class="form-control")
+              .form-group
+                label Mật khẩu
+                input(type="password" name="password" class="form-control")
+              .form-group
+                button(type="submit" name="loginAdmin" class="btn btn-danger btn-block") Đăng nhập

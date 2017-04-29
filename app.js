@@ -12,6 +12,7 @@ var users = require('./routes/users');
 var customers = require('./routes/customers');
 var businesses = require('./routes/businesses');
 var payment = require('./routes/payment');
+var backend = require('./routes/backend');
 
 var app = express();
 
@@ -37,6 +38,7 @@ app.use('/users', users);
 app.use('/customers', customers);
 app.use('/businesses', businesses);
 app.use('/paymentapp', payment);
+app.use('/heroku-backend', backend);
 
 app.use(function(req, res, next){
   // Request methods you wish to allow

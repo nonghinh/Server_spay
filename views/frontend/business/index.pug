@@ -4,6 +4,63 @@ block content
     .page-header
       h1.text-center Thông tin tài khoản
     .row
+      .col-sm-6
+        .list-group
+          .list-group-item
+            strong Tên doanh nghiệp:
+            span=business.name
+          .list-group-item
+            strong Giấy phép:
+            span=business.license
+          .list-group-item
+            strong Địa chỉ:
+            span=business.address
+          .list-group-item
+            strong Website:
+            span=business.website
+          .list-group-item
+            strong Mô tả:
+            span=business.description
+      .col-sm-6
+        button(type="button" class="btn btn-info" data-toggle="modal" data-target="#modalUB")
+          i.fa.fa-edit
+          span Cập nhật
+        <div class="modal fade" id="modalUB">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cập nhật thông tin doanh nghiệp</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                form(action="" method="GET" id="formUpdateBusiness")
+                  input(type="hidden" name="id" class="form-control" value=business.id)
+                  .form-group
+                    label Tên doanh nghiệp
+                    input(type="text" name="name" class="form-control" value=business.name)
+                  .form-group
+                    label Giấy phép
+                    input(type="text" name="license" class="form-control" value=business.license)
+                  .form-group
+                    label Website
+                    input(type="text" name="website" class="form-control" value=business.website)
+                  .form-group
+                    label Địa chỉ
+                    input(type="text" name="address" class="form-control" value=business.address)
+                  .form-group
+                    label Mô tả
+                    textarea( name="description" class="form-control")=business.description
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Thoát</button>
+                <button type="button" class="btn btn-danger" id="btnUpdateB">Xong</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    .row
       .col-sm-12
         .box-card
           .card
@@ -27,13 +84,40 @@ block content
                       i.fa.fa-eye
                       span Xem
                   td
-                    a(href="" class="text-primary")
+                    a(href="/businesses/updateApp/"+app.id class="text-primary")
                       i.fa.fa-pencil
                       span Sửa
                   td
-                    a(href="" class="text-danger")
+                    a(href="/businesses/deleteApp/"+app.id class="text-danger" onclick="return confirmDelete()")
                       i.fa.fa-trash
                       span Xóa
     .row.section
       .col-sm-12
         a(href="/businesses/createApp" class="btn btn-danger btn-lg") Tạo ứng dụng
+
+  block script
+    script.
+      var formUB = $('#formUpdateBusiness');
+      $('#btnUpdateB').click(function(){
+        var id = formUB.find('input[name=id]').val();
+        var name = formUB.find('input[name=name]').val();
+        var license = formUB.find('input[name=license]').val();
+        var website = formUB.find('input[name=website]').val();
+        var address = formUB.find('input[name=address]').val();
+        var description = formUB.find('textarea[name=description]').val();
+
+        var dataUpdate = {
+          id: id,
+          name: name,
+          license: license,
+          website: website,
+          address: address,
+          description: description
+        };
+        var url = 'https://ancient-thicket-58596.herokuapp.com/businesses/updateBusiness';
+        $.get(url, dataUpdate, function(result){
+          if(result == 'ok'){
+            $('#modalUB').modal('hide');
+          }
+        });
+      });

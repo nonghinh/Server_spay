@@ -1,8 +1,8 @@
  var db = {
-   host: 'sql9.freesqldatabase.com',
-   user: 'sql9170069',
-   password: 'i9MxagljGk',
-   database: 'sql9170069'
+   host: 'johnny.heliohost.org',
+   user: 'hinh129',
+   password: 'hinhbkcntt',
+   database: 'hinh129_mypayment'
  };
 
 module.exports = db;
