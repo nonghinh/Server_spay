@@ -14,7 +14,7 @@ app.use(session({
   cookie: { secure: false}}));
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource usser');
+  res.end();
 });
 
 router.get('/login', function(req, res, next) {
