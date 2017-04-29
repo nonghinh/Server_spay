@@ -4,5 +4,5 @@
    password: 'hinhbkcntt',
    database: 'hinh129_mypayment'
  };
-//
+//exports
 module.exports = db;
