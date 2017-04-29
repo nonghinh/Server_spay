@@ -4,5 +4,23 @@ block content
     .page-header
       h1.text-center Thông tin cá nhân của bạn
     .row
-      .col-sm-12
-        p="Tài khoản còn lại: " +customer.money+ " vnđ"
+      .col-sm-6
+        .list-group
+          .list-group-item
+            strong Tên tài khoản:
+            span= customer.fullname
+          .list-group-item
+            strong Ngày sinh:
+            span= customer.birthday
+          .list-group-item
+            strong Giới tính:
+            span= (customer.gender == 1) ? 'Nam' : 'Nữ'
+          .list-group-item
+            strong Số CMND:
+            span= customer.id_number
+          .list-group-item
+            strong Điạ chỉ:
+            span= customer.address
+          .list-group-item
+            strong Số dư tài khoản:
+            span= customer.money+ " vnđ"
