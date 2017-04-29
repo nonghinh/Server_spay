@@ -1,8 +1,8 @@
  var db = {
-   host: 'johnny.heliohost.org',
-   user: 'hinh129',
-   password: 'hinhbkcntt',
-   database: 'hinh129_mypayment'
+   host: 'sql3.freemysqlhosting.net',
+   user: 'sql3171823',
+   password: 'EqLSpnALkm',
+   database: 'sql3171823'
  };
 //exports
 module.exports = db;
