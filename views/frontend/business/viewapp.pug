@@ -22,6 +22,10 @@ block content
             .list-group-item
               strong Mô tả:
               span=app.description
+            .list-group-item
+              strong Đường dẫn request tới host:
+              alert.alert-info
+                span="https://ancient-thicket-58596.herokuapp.com/paymentapp/accepted/"+app.id+"/{mã case}"
         .col-sm-6
           .card
             .card-header

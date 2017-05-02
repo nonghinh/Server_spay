@@ -175,7 +175,7 @@ router.get('/updateBusiness', function(req, res, next){
     console.log('ok');
     conn.query('UPDATE businesses SET ? WHERE ?',[{name: name, website: website, license: license, description: description, address: address}, {id: id}], function(err){
       if(err) throw err;
-      res.send('updated');
+      res.send('ok');
     });
   }
 });
