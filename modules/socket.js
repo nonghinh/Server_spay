@@ -58,7 +58,7 @@ exports = module.exports = function(io){
               product_id: dataPayment.product_id,
               case_id: dataPayment.case_id,
               price: dataPayment.product_price,
-              message: message: customers[0].fullname+' không đủ tiền mua sản phẩm '+dataPayment.product_name,
+              message: customers[0].fullname+' không đủ tiền mua sản phẩm '+dataPayment.product_name,
               status:0
             };
             conn.query('INSERT INTO bills SET ?', bill2, function(errB2){
